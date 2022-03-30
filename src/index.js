@@ -2,6 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// init game
-ReactDOM.render(<h1>hello</h1>, document.getElementById('root'));
 
+class Day extends React.PureComponent {
+    render() {
+        return <button>day {this.props.day}</button>;
+    }
+
+}
+
+
+class Calendar extends React.PureComponent {
+    render() {
+        const month = Array(31).fill(null);        
+        return month.map((day, index) => <Day day={index}/>);
+    }
+}
+
+
+// init app
+ReactDOM.render(<Calendar/>, document.getElementById('root'));
