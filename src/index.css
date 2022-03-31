@@ -1,5 +1,6 @@
 
 #root {
+    display: flex;
 }
 #root .month-label {
     text-align: center;
@@ -61,4 +62,47 @@
 
 #root .calendar li button.today {
     background-color: #99c2ff;
+}
+#root .button-wrapper {
+    /* width: 45px; */
+    /* height: 50px;
+    position: absolute; */
+    height: 100%;
+    height: auto;
+    margin: auto;
+    /* border: 1px solid red; */
+}
+#root .button-wrapper button {
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    margin: 5px;
+}
+#root .button-wrapper.prev button {
+    border-top: 25px solid transparent;
+    border-right: 25px solid #ccc;
+    border-bottom: 25px solid transparent;
+    border-left: none;
+}
+#root .button-wrapper.prev button:active {
+    border-top: 25px solid transparent;
+    border-right: 25px solid #999;
+    border-bottom: 25px solid transparent;
+    border-left: none;
+}
+#root .button-wrapper.next button {
+    border-top: 25px solid transparent;
+    border-left: 25px solid #ccc;
+    border-bottom: 25px solid transparent;
+    border-right: none;
+}
+#root .button-wrapper.next button:active {
+    border-top: 25px solid transparent;
+    border-left: 25px solid #999;
+    border-bottom: 25px solid transparent;
+    border-right: none;
+}
+#root .details {
+    min-width: 150px;
+    height: 100%;
 }
