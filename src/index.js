@@ -27,13 +27,19 @@ class CalendarMonth extends React.PureComponent {
         const padBefore = firstDay.getDay();// days to pad before 1st day
         const padAfter = 7 - lastDay.getDay() - 1;// days to pad after last day
         console.log('###CalendarMonth', padBefore, padAfter);
+        const DAY_LABEL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const MONTH_LABEL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         return <div className="calendar">
-            <div>Month</div>
-            { Array(padBefore).fill(null).map( () => { return <div className="blank">blank</div>})}
-            { Array(daysInMonth).fill(null).map( (itm, index) => { return <div className="day">{index+1}</div>})}
-            { Array(padAfter).fill(null).map( () => { return <div className="blank">blank</div>})}
-            <div>Month</div>
+            <div>{MONTH_LABEL[month]} {year}</div>
+            <ul className="label">
+                { DAY_LABEL.map((label, idx) => { return <li className={(idx===0||idx===6)?'weekend':''}>{label}</li>} )}
+            </ul>
+            <ul className="month">
+                { Array(padBefore).fill(null).map( () => { return <li className="blank"></li>})}
+                { Array(daysInMonth).fill(null).map( (itm, index) => { return <li className="day"><button>{index+1}</button></li>})}
+                {/* { Array(padAfter).fill(null).map( () => { return <li className="blank"></li>})} */}
+            </ul>
         </div>
     }
 }
