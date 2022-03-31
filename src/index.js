@@ -31,8 +31,12 @@ class CalendarMonth extends React.PureComponent {
         const MONTH_LABEL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         return <div className="calendar">
-            <div>{MONTH_LABEL[month]} {year}</div>
-            <ul className="label">
+            <div className="month-label">
+                <CalendarButton/>
+                {MONTH_LABEL[month]} {year}
+                <CalendarButton/>
+            </div>
+            <ul className="day-label">
                 { DAY_LABEL.map((label, idx) => { return <li className={(idx===0||idx===6)?'weekend':''}>{label}</li>} )}
             </ul>
             <ul className="month">
@@ -60,6 +64,7 @@ class Calendar extends React.PureComponent {
     constructor(props) {
         super(props);
         this.initMonth();
+        this.changeMonth.bind(this);
     }
 
     initMonth(params) {
@@ -72,12 +77,14 @@ class Calendar extends React.PureComponent {
             items: []// items for calendar i.e. "3-15-2021" : [ { idx: 0, description: "grocery shopping" }, { idx: 0, description: "go to gym" }, ... ]
         };
     }
-
+    changeMonth(direction) {
+        console.log('changeMonth', direction);
+    }
     render() {
         return <React.Fragment>
-            <CalendarButton/>
-            <CalendarMonth {...this.state}/>
-            <CalendarButton/>
+            <CalendarButton changeMonth={this.changeMonth} direction={1}/>
+            <CalendarMonth {...this.state} changeMonth={this.changeMonth}/>
+            <CalendarButton changeMonth={this.changeMonth} direction={-1}/>
             <DayInfo />
         </React.Fragment>;
     }

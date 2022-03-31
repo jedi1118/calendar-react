@@ -1,6 +1,11 @@
 
 #root {
 }
+#root .month-label {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: .35rem;
+}
 #root .calendar ul {
     list-style-type: none;
     margin: 0;
@@ -8,7 +13,7 @@
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
 }
-#root .calendar ul.label li {
+#root .calendar ul.day-label li {
     background-color: #eee;
     /* padding: 10px 5px; */
     height: 30px;
@@ -28,7 +33,7 @@
     width: 100%;
     height: 100%;
 }
-#root .calendar ul.label li.weekend {
+#root .calendar ul.day-label li.weekend {
     background-color: #ccc;
 }
 #root .calendar ul.month-view {
