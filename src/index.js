@@ -70,10 +70,24 @@ class CalendarMonth extends React.PureComponent {
 }
 
 class DayInfo extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = { value: ''}
+        this.handleChange = this.handleChange.bind(this);
+        this.handleAdd = this.handleAdd.bind(this);
+    }
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+    handleAdd() {
+        this.props.onAdd(this.props.dateKey, this.state.value);
+        this.setState({value : ''});
+    }
     render() {
-        console.log('##########DayInfo', this.props);
+        // console.log('##########DayInfo', this.props);
         const dayTasks = this.props && this.props.tasks && this.props.tasks[this.props.dateKey];
         return <div className="details">
+            <div className="detail-label">Tasks for the day:</div>
             <div>{this.props.dateKey && new Date(this.props.dateKey).toDateString()}</div>
         {dayTasks && dayTasks.length > 0 &&
             <React.Fragment>
@@ -88,9 +102,9 @@ class DayInfo extends React.PureComponent {
         {this.props.dateKey && 
             <React.Fragment>
             <div className="add-label">Add a new task</div>
-            <textarea/>
+            <textarea value={this.state.value} onChange={this.handleChange}/>
             <div>
-                <button onClick={(e) => {this.props.onAdd(this.props.dateKey, e.target.value)}}>Add</button>
+                <button onClick={this.handleAdd}>Add</button>
             </div>
             </React.Fragment>
         }
@@ -124,7 +138,7 @@ class Calendar extends React.PureComponent {
     }
 
     initMonth(params) {
-        console.log('###initMonth', this.props.date);
+        // console.log('###initMonth', this.props.date);
         const curMonth = this.props.date.getMonth();// 0 baseds, 0 is January
         const curYear = this.props.date.getFullYear();
         this.state = {
@@ -154,7 +168,7 @@ class Calendar extends React.PureComponent {
         };
     }
     handleChangeMonth(direction) {
-        console.log('###handleChangeMonth', direction, this);
+        // console.log('###handleChangeMonth', direction, this);
         this.setState({
             calendarMonth: this.state.calendarMonth+direction
         });
@@ -186,6 +200,15 @@ class Calendar extends React.PureComponent {
     }
     handleAdd(dayKey, description) {
         console.log('####handleAdd', dayKey, description);
+        const taskCopy = JSON.parse(JSON.stringify(this.state.tasks));// create a copy
+        let tasks = (taskCopy && taskCopy[dayKey]) || [];
+        tasks.push({
+            id: Date.now(),
+            description: description
+        });
+        taskCopy[dayKey] = tasks;
+        this.setState({"tasks": taskCopy});
+        this.handleShowDetail(dayKey);
     }
     render() {
         return <React.Fragment>

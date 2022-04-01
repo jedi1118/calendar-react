@@ -51,6 +51,9 @@
     border: none;
     position: relative;
 }
+#root .calendar li button:hover{
+    border: 1px solid #028ecf;
+}
 #root .calendar li:nth-child(7n), #root .calendar li:nth-child(7n+1) {
     background-color: #eee;
 }
@@ -90,45 +93,49 @@
 /* large buttons */
 #root .button-wrapper.prev button {
     border-top: 25px solid transparent;
-    border-right: 25px solid #ccc;
+    border-right: 25px solid #99c2ff;
     border-bottom: 25px solid transparent;
     border-left: none;
 }
 #root .button-wrapper.prev button:active {
-    border-right: 25px solid #999;
+    border-right: 25px solid #028ecf;
 }
 #root .button-wrapper.next button {
     border-top: 25px solid transparent;
-    border-left: 25px solid #ccc;
+    border-left: 25px solid #99c2ff;
     border-bottom: 25px solid transparent;
     border-right: none;
 }
 #root .button-wrapper.next button:active {
-    border-left: 25px solid #999;
+    border-left: 25px solid #028ecf;
 }
 /* small buttons */
 #root .month-label .button-wrapper.prev button {
     border-top: 10px solid transparent;
-    border-right: 10px solid #ccc;
+    border-right: 10px solid #99c2ff;
     border-bottom: 10px solid transparent;
     border-left: none;
 }
 #root .month-label .button-wrapper.prev button:active {
-    border-right: 10px solid #999;
+    border-right: 10px solid #028ecf;
 }
 #root .month-label .button-wrapper.next button {
     border-top: 10px solid transparent;
-    border-left: 10px solid #ccc;
+    border-left: 10px solid #99c2ff;
     border-bottom: 10px solid transparent;
     border-right: none;
 }
 #root .month-label .button-wrapper.next button:active {
-    border-left: 10px solid #999;
+    border-left: 10px solid #028ecf;
 }
 #root .details {
     height: 100%;
     width: 280px;
     margin: 0 10px 0 0;
+}
+#root .details .detail-label {
+    font-size: 1.5rem;
+    margin: 0.35rem;
 }
 #root .details ul {
     padding-left: 15px;
