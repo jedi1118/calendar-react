@@ -153,3 +153,7 @@
 #root .details  textarea {
     width: 90%;
 }
+#root .details  .detail-add-err {
+    font-size: 0.8rem;
+    color: red;
+}

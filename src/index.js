@@ -72,14 +72,20 @@ class CalendarMonth extends React.PureComponent {
 class DayInfo extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state = { value: ''}
+        this.state = { value: '', error: false}
         this.handleChange = this.handleChange.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
     }
     handleChange(event) {
+        this.setState({error: false});
         this.setState({value: event.target.value});
     }
     handleAdd() {
+        if (this.state.value === '') {
+            this.setState({error: true});
+            return;
+        }
+        this.setState({error: false});
         this.props.onAdd(this.props.dateKey, this.state.value);
         this.setState({value : ''});
     }
@@ -103,6 +109,7 @@ class DayInfo extends React.PureComponent {
             <React.Fragment>
             <div className="add-label">Add a new task</div>
             <textarea value={this.state.value} onChange={this.handleChange}/>
+            { this.state.error && <span className="detail-add-err">Please enter a description</span>}
             <div>
                 <button onClick={this.handleAdd}>Add</button>
             </div>
