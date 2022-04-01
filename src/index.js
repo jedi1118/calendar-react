@@ -4,15 +4,15 @@ import './index.css';
 
 class CalendarDay extends React.PureComponent {
     render() {
-        // console.log('#### CalendarDay:', this.props.day,  this.props.calendarMonth, this.props.calendarYear, `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`);
+        // console.log('#### CalendarDay:', this.props.dateKey);
         // getMonth() is 0 based, need to +1
         const isToday = this.props.day === today.getDate() &&
             this.props.calendarMonth === today.getMonth()+1  && this.props.calendarYear === today.getFullYear();
         return <button className={isToday?"today":""} onClick={() => {this.props.onShowDetail(this.props.dateKey)}}>
             <span className="day">{this.props.day}</span>
             {
-                this.props.items && this.props.items[this.props.dateKey] &&
-                    <span className="todo">{this.props.items[this.props.dateKey].length} events</span>
+                this.props.tasks && this.props.tasks[this.props.dateKey] &&
+                    <span className="todo">{this.props.tasks[this.props.dateKey].length} tasks</span>
             }
             </button>
     }
@@ -40,9 +40,13 @@ class CalendarMonth extends React.PureComponent {
 
         return <div className="calendar">
             <div className="month-label">
-                {/* <CalendarButton {...this.props} direction={1}/> */}
-                {MONTH_LABEL[month-1]} {year}
-                {/* <CalendarButton {...this.props} direction={-1}/> */}
+                <CalendarButton {...this.props} direction={-1}
+                    onChangeMonth={this.props.onPrevMonth}
+                />
+                <div>{MONTH_LABEL[month-1]} {year}</div>
+                <CalendarButton {...this.props} direction={1}
+                    onChangeMonth={this.props.onNextMonth}
+                />
             </div>
             <ul className="day-label">
                 { DAY_LABEL.map((label, idx) => { return <li key={'label-'+idx}>{label}</li>} )}
@@ -53,7 +57,8 @@ class CalendarMonth extends React.PureComponent {
                     const day = new Date(`${month}/${index+1}/${year}`);
                     const key = `${month}-${index+1}-${year}`;
                     // console.log('### key', key);
-                    // seems unnecessary to construct/use a Date obj
+                    // seems unnecessary to construct/use a Date obj - we only use the number for display, 
+                    // not using any of the Date functions
                     return <li key={key}>
                             <CalendarDay {...this.props} day={index+1} dateKey={key}/>
                         </li>
@@ -65,8 +70,34 @@ class CalendarMonth extends React.PureComponent {
 }
 
 class DayInfo extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.handleDelete.bind(this);
+    }
+    handleDelete(dateKey, id) {
+        this.props.onDelete(dateKey, id);
+    }
     render() {
-        return <div className="details">day detail</div>;
+        console.log('##########DayInfo', this.props);
+        return <div className="details">
+            <div>{this.props.dateKey && new Date(this.props.dateKey).toDateString()}</div>
+        {this.props && this.props.dayDetail && this.props.dayDetail.length > 0 &&
+            <React.Fragment>
+            <ul>
+                {this.props.dayDetail.map((itm) => { return <li key={itm.id}>{itm.description} <button onClick={() => {this.props.onDelete(this.props.dateKey, itm.id)}}>Delete</button></li> })}
+            </ul>
+            </React.Fragment>
+        }
+        {this.props.dateKey && 
+            <React.Fragment>
+            <div>Add a new task</div>
+            <textarea/>
+            <div>
+                <button onClick={() => {this.props.onAdd(this.props.dateKey, this.value)}}>Add</button>
+            </div>
+            </React.Fragment>
+        }
+        </div>;
     }
 }
 
@@ -80,8 +111,8 @@ class CalendarButton extends React.PureComponent {
     }
     render() {
         return <div className={`button-wrapper ${this.props.direction === 1?"next":"prev"}`}>
-            {/* <button onClick={() => this.props.onChangeMonth(this.props.direction)}></button> */}
-            <button onClick={this.triggerChangeMonth}></button>
+            <button onClick={() => this.props.onChangeMonth(this.props.direction)}></button>
+            {/* <button onClick={this.triggerChangeMonth}></button> */}
         </div>
     }
 }
@@ -102,24 +133,25 @@ class Calendar extends React.PureComponent {
         this.state = {
             calendarMonth: curMonth+1,// display month, date.monthneeds to -1
             calendarYear: curYear,
-            items: {
-                "2-15-2022": [{
-                    idx: 0,
+            dayDetail: null,// detail of the clicked day
+            tasks: {// setup some tasks
+                [`${curMonth}-15-${curYear}`]: [{// prev month
+                    id: 0,
                     description: "grocery shopping"
                 }],
-                "3-5-2022": [{
-                    idx: 0,
+                [`${curMonth+1}-5-${curYear}`]: [{// cur month
+                    id: 1,
                     description: "return books"
                 }],
-                "3-15-2022": [{
-                    idx: 0,
+                [`${curMonth+1}-17-${curYear}`]: [{// cur month
+                    id: 2,
                     description: "grocery shopping"
                 }, {
-                    idx: 1,
+                    id: 3,
                     description: "go to gym"
                 }],
-                "4-9-2022": [{
-                    idx: 0,
+                [`${curMonth+2}-9-${curYear}`]: [{// next month
+                    id: 4,
                     description: "go to gym"
                 }]
             }
@@ -138,7 +170,17 @@ class Calendar extends React.PureComponent {
         this.handleChangeMonth(1);
     }
     handleShowDetail(day) {
-        console.log('###onShowDetail', day);
+        // console.log('###onShowDetail', day);
+        this.setState({
+            dateKey: day,
+            dayDetail: this.state.tasks && this.state.tasks[day] ? this.state.tasks && this.state.tasks[day] : null 
+        });
+    }
+    handlDelete(dayKey, id) {
+        console.log('####handlDelete', dayKey, id);
+    }
+    handleAdd(dayKey, description) {
+        console.log('####handleAdd', dayKey, description);
     }
     render() {
         return <React.Fragment>
@@ -148,10 +190,14 @@ class Calendar extends React.PureComponent {
                 {...this.state} 
                 onPrevMonth={() => {this.toPreviouMonth()}} 
                 onNextMonth={() => {this.toNextMonth()}} 
-                onShowDetail={() => {this.handleShowDetail()}}/>
+                onShowDetail={this.handleShowDetail.bind(this)}/>
             <CalendarButton 
                 onChangeMonth={() => this.toNextMonth()} direction={1}/>
-            <DayInfo />
+            <DayInfo
+                dayDetail={this.state.dayDetail}
+                dateKey={this.state.dateKey}
+                onAdd={this.handleAdd.bind(this)}
+                onDelet={() => { this.handlDelete.bind(this)}}/>
         </React.Fragment>;
     }
 }
