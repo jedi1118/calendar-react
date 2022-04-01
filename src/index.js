@@ -169,8 +169,18 @@ class Calendar extends React.PureComponent {
     }
     handleChangeMonth(direction) {
         // console.log('###handleChangeMonth', direction, this);
+        let month = this.state.calendarMonth+direction;
+        let year = this.state.calendarYear;
+        if (month > 12) {
+            month = 1;
+            year += 1;
+        } else if (month < 1) {
+            month = 12;
+            year -= 1;
+        }
         this.setState({
-            calendarMonth: this.state.calendarMonth+direction
+            calendarMonth: month,
+            calendarYear: year
         });
     }
     toPreviouMonth() {
