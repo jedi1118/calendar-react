@@ -14,7 +14,9 @@
 #root .month-label .button-wrapper {
     display: inherit;/* center vertically */
 }
-
+#root .calendar {
+    flex-grow: 4;
+}
 #root .calendar ul {
     list-style-type: none;
     margin: 0;
@@ -124,6 +126,23 @@
     border-left: 10px solid #999;
 }
 #root .details {
-    min-width: 150px;
     height: 100%;
+    width: 280px;
+    margin: 0 10px 0 0;
+}
+#root .details ul {
+    padding-left: 15px;
+}
+#root .details li {
+    clear: both;
+    margin: 7px 0;
+}
+#root .details li button {
+    float: right;
+}
+#root .details  .add-label {
+    margin-top: 10px;
+}
+#root .details  textarea {
+    width: 90%;
 }

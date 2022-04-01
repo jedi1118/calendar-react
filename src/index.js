@@ -70,30 +70,27 @@ class CalendarMonth extends React.PureComponent {
 }
 
 class DayInfo extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.handleDelete.bind(this);
-    }
-    handleDelete(dateKey, id) {
-        this.props.onDelete(dateKey, id);
-    }
     render() {
         console.log('##########DayInfo', this.props);
+        const dayTasks = this.props && this.props.tasks && this.props.tasks[this.props.dateKey];
         return <div className="details">
             <div>{this.props.dateKey && new Date(this.props.dateKey).toDateString()}</div>
-        {this.props && this.props.dayDetail && this.props.dayDetail.length > 0 &&
+        {dayTasks && dayTasks.length > 0 &&
             <React.Fragment>
             <ul>
-                {this.props.dayDetail.map((itm) => { return <li key={itm.id}>{itm.description} <button onClick={() => {this.props.onDelete(this.props.dateKey, itm.id)}}>Delete</button></li> })}
+                {dayTasks.map((itm) => { 
+                    return <li key={itm.id}>{itm.description}
+                        <button onClick={() => {this.props.onDelete(this.props.dateKey, itm.id)}}>Delete</button>
+                </li> })}
             </ul>
             </React.Fragment>
         }
         {this.props.dateKey && 
             <React.Fragment>
-            <div>Add a new task</div>
+            <div className="add-label">Add a new task</div>
             <textarea/>
             <div>
-                <button onClick={() => {this.props.onAdd(this.props.dateKey, this.value)}}>Add</button>
+                <button onClick={(e) => {this.props.onAdd(this.props.dateKey, e.target.value)}}>Add</button>
             </div>
             </React.Fragment>
         }
@@ -133,7 +130,6 @@ class Calendar extends React.PureComponent {
         this.state = {
             calendarMonth: curMonth+1,// display month, date.monthneeds to -1
             calendarYear: curYear,
-            dayDetail: null,// detail of the clicked day
             tasks: {// setup some tasks
                 [`${curMonth}-15-${curYear}`]: [{// prev month
                     id: 0,
@@ -172,12 +168,21 @@ class Calendar extends React.PureComponent {
     handleShowDetail(day) {
         // console.log('###onShowDetail', day);
         this.setState({
-            dateKey: day,
-            dayDetail: this.state.tasks && this.state.tasks[day] ? this.state.tasks && this.state.tasks[day] : null 
+            dateKey: day
         });
     }
     handlDelete(dayKey, id) {
         console.log('####handlDelete', dayKey, id);
+        const taskCopy = JSON.parse(JSON.stringify(this.state.tasks));// create a copy
+        let tasks = taskCopy && taskCopy[dayKey];
+        for(let i = 0; tasks && i < tasks.length; i++) {
+            if (tasks[i].id === id) {
+                tasks = tasks.splice(i, 1);// remove
+                    taskCopy[dayKey] = tasks;
+                this.setState({"tasks": taskCopy});
+                this.handleShowDetail(dayKey);
+            }
+        }
     }
     handleAdd(dayKey, description) {
         console.log('####handleAdd', dayKey, description);
@@ -194,10 +199,10 @@ class Calendar extends React.PureComponent {
             <CalendarButton 
                 onChangeMonth={() => this.toNextMonth()} direction={1}/>
             <DayInfo
-                dayDetail={this.state.dayDetail}
+                tasks={this.state.tasks}
                 dateKey={this.state.dateKey}
                 onAdd={this.handleAdd.bind(this)}
-                onDelet={() => { this.handlDelete.bind(this)}}/>
+                onDelete={this.handlDelete.bind(this)}/>
         </React.Fragment>;
     }
 }
