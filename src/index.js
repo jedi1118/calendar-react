@@ -26,7 +26,7 @@ class CalendarMonth extends React.PureComponent {
         const DAYS_IN_MONTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];// day in a month
         let daysInMonth = DAYS_IN_MONTHS[month-1];// how many days in this month
         // check leap month
-        if (month == 1 && year % 4 === 0) {// feb and leap year
+        if (month === 1 && year % 4 === 0) {// feb and leap year
             daysInMonth = 29;
         }
         const firstDay = new Date(`${month}/1/${year}`);
@@ -191,7 +191,7 @@ class Calendar extends React.PureComponent {
         let tasks = taskCopy && taskCopy[dayKey];
         for(let i = 0; tasks && i < tasks.length; i++) {
             if (tasks[i].id === id) {
-                tasks = tasks.splice(i, 1);// remove
+                tasks.splice(i, 1);// remove
                     taskCopy[dayKey] = tasks;
                 this.setState({"tasks": taskCopy});
                 this.handleShowDetail(dayKey);
