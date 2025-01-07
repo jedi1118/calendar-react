@@ -1,7 +1,12 @@
-function CalendarButton({direction, onChangeMonth}) {
+import { useSelector, useDispatch } from 'react-redux';
+import { toPreviousMonth, toNextMonth } from './calendarSlice'
+
+function CalendarButton({direction}) {
+    const dispatch = useDispatch();
+
     return (
-        <div className={`button-wrapper ${direction === 1?"next":"prev"}`}>
-            <button onClick={() => onChangeMonth(direction)}></button>
+        <div className={`button-wrapper ${direction ? "next":"prev"}`}>
+            <button onClick={() => { direction ? dispatch(toNextMonth()) : dispatch(toPreviousMonth())}}></button>
         </div>
     );
 }

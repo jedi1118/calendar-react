@@ -2,15 +2,23 @@
 import './App.css';
 import Calendar from './Calendar';
 
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit';
+import calendarReducer from './calendarSlice.js'
+
+const store = configureStore({
+  reducer: {
+    calendar: calendarReducer
+  }
+});
 
 function App() {
   const today = new Date();
   return (
     <div className="App">
-      {/* <header className="App-header"> */}
-
+      <Provider store={store}>
         <Calendar date={today}/>
-      {/* </header> */}
+      </Provider>
     </div>
   );
 }

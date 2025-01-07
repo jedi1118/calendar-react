@@ -1,18 +1,22 @@
 import CalendarButton from "./CalendarButton";
 import CalendarDay from "./CalendarDay";
+import { useSelector, useDispatch } from 'react-redux'
+import { toPreviousMonth, toNextMonth } from './calendarSlice'
 
 function CalendarMonth(props) {
-   
-        // console.log('###CalendarMonth', this.props);
-        const month = props.calendarMonth;
-        const year = props.calendarYear;
+    const date = useSelector(state => state.calendar.date) 
+    const day = useSelector(state => state.calendar.day);
+    const month = useSelector(state => state.calendar.month);
+    const year = useSelector(state => state.calendar.year);
+    const dispatch = useDispatch();
+
         const DAYS_IN_MONTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];// days in a month
-        let daysInMonth = DAYS_IN_MONTHS[month-1];// how many days in this month
+        let daysInMonth = DAYS_IN_MONTHS[month];// how many days in this month
         // check leap month
         if (month === 1 && year % 4 === 0) {// feb and leap year
             daysInMonth = 29;
         }
-        const firstDay = new Date(`${month}/1/${year}`);
+        const firstDay = new Date(`${month+1}/1/${year}`);
         // const lastDay = new Date(`${month}/${daysInMonth}/${year}`);
         // console.log('@@@ firstDay:', firstDay, ', lastday:', lastDay);
         const padBefore = firstDay.getDay();// days to pad before 1st day
@@ -23,12 +27,14 @@ function CalendarMonth(props) {
         return (
         <div className="calendar">
             <div className="month-label">
-                <CalendarButton {...props} direction={-1}
-                    onChangeMonth={props.onPrevMonth}
+                <CalendarButton
+                    direction={-1}
+                    onClick={() => dispatch(toPreviousMonth())}
                 />
-                <div>{MONTH_LABEL[month-1]} {year}</div>
-                <CalendarButton {...props} direction={1}
-                    onChangeMonth={props.onNextMonth}
+                <div>{MONTH_LABEL[month]} {year}</div>
+                <CalendarButton
+                    direction={1}
+                    onClick={() => dispatch(toNextMonth())}
                 />
             </div>
             <ul className="day-label">
