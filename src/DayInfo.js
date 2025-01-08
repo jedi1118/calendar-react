@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { toPreviousMonth, toNextMonth, selectDay } from './reducers/calendarSlice'
+import { addTask, deleteTask } from './reducers/taskSlice'
 
 function DayInfo(props) {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = { value: '', error: false}
-    //     this.handleChange = this.handleChange.bind(this);
-    //     this.handleAdd = this.handleAdd.bind(this);
-    // }
+    const dispatch = useDispatch();
+    const day = useSelector((state) => state.calendar.day);
+    const month = useSelector((state) => state.calendar.month);
+    const year = useSelector((state) => state.calendar.year);
+    
+    const dateKey = `${month+1}-${day}-${year}`;
+    const taskList = useSelector((state) => state.tasks[dateKey]);
     // function handleChange(event) {
     //     this.setState({error: false});
     //     this.setState({value: event.target.value});
@@ -22,35 +25,32 @@ function DayInfo(props) {
     //     this.props.onAdd(this.props.dateKey, this.state.value);
     //     this.setState({value : ''});
     // }
-    // render() {
-        // console.log('##########DayInfo', this.props);
-        const dayTasks = this.props && this.props.tasks && this.props.tasks[this.props.dateKey];
-        return (
+        // const dayTasks = this.props && this.props.tasks && this.props.tasks[this.props.dateKey];
+    return (
         <div className="details">
             <div className="detail-label">Tasks for the day:</div>
-            <div>{this.props.dateKey && new Date(this.props.dateKey).toDateString()}</div>
-        {dayTasks && dayTasks.length > 0 &&
+            <div>{new Date(dateKey).toDateString()}</div>
+        {taskList && taskList.length > 0 &&
             <React.Fragment>
             <ul>
-                {dayTasks.map((itm) => { 
+                {taskList.map((itm) => { 
                     return <li key={itm.id}>{itm.description}
-                        <button onClick={() => {this.props.onDelete(this.props.dateKey, itm.id)}}>Delete</button>
+                        <button onClick={() => {dispatch(deleteTask(dateKey, itm.id))}}>Delete</button>
                 </li> })}
             </ul>
             </React.Fragment>
         }
-        {this.props.dateKey && 
+        {dateKey && 
             <React.Fragment>
             <div className="add-label">Add a new task</div>
-            <textarea value={1/*this.state.value*/} onChange={this.handleChange}/>
+            <textarea value={""} /*onChange={this.handleChange}*//>
             { /*this.state.error &&*/ <span className="detail-add-err">Please enter a description</span>}
             <div>
-                <button onClick={this.handleAdd}>Add</button>
+                <button onClick={() => dispatch(addTask)}>Add</button>
             </div>
             </React.Fragment>
         }
         </div>
-        );
-    // }
+    );
 }
 export default DayInfo;

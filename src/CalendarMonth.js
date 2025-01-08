@@ -1,11 +1,11 @@
 import CalendarButton from "./CalendarButton";
 import CalendarDay from "./CalendarDay";
 import { useSelector, useDispatch } from 'react-redux'
-import { toPreviousMonth, toNextMonth } from './reducers/calendarSlice'
+import { toPreviousMonth, toNextMonth, selectDay } from './reducers/calendarSlice'
 
 function CalendarMonth(props) {
-    const date = useSelector(state => state.calendar.date) 
-    const day = useSelector(state => state.calendar.day);
+    // const date = useSelector(state => state.calendar.date) 
+    // const day = useSelector(state => state.calendar.day);
     const month = useSelector(state => state.calendar.month);
     const year = useSelector(state => state.calendar.year);
     const dispatch = useDispatch();
@@ -43,13 +43,11 @@ function CalendarMonth(props) {
             <ul className="month">
                 { Array(padBefore).fill(null).map( (val, idx) => { return <li className="blank" key={'blank-'+idx}></li>})}
                 { Array(daysInMonth).fill(null).map( (itm, index) => {
-                    // const day = new Date(`${month}/${index+1}/${year}`);
-                    const key = `${month}-${index+1}-${year}`;
-                    // console.log('### key', key);
+                    const key = `${year}-${month+1}-${index+1}`;
                     // seems unnecessary to construct/use a Date obj - we only use the number for display, 
                     // not using any of the Date functions
                     return <li key={key}>
-                            <CalendarDay {...props} day={index+1} dateKey={key}/>
+                            <CalendarDay day={index+1} dateKey={key}/>
                         </li>
                 })}
                 {/* { Array(padAfter).fill(null).map( () => { return <li className="blank"></li>})} */}

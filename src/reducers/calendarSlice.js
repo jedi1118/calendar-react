@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const today = new Date();
 const curMonth = today.getMonth();// 0 baseds, 0 is January
 const curYear = today.getFullYear();
+const curDay = today.getDate();
 
 const calendarSlice = createSlice({
     name: 'calendar',
     initialState: {
         year: curYear,
-        month:curMonth,
-        day: null,
-        date: today
+        month: curMonth,
+        day: 1,// default to day 1
     },
     reducers: {
         toPreviousMonth: (state) => {
@@ -31,17 +31,11 @@ const calendarSlice = createSlice({
             }
             // state.day = 1;
         },
-    //   addItem: (state, action) => {
-    //     // Add item logic
-    //   },
-    //   removeItem: (state, action) => {
-    //     // Remove item logic
-    //   },
-    //   updateQuantity: (state, action) => {
-    //     // Update quantity logic
-    //   },
+        selectDay: (state, day) => {
+            state.day = day.payload;
+        }
     },
   });
   
-export const {toPreviousMonth, toNextMonth} = calendarSlice.actions;
+export const {toPreviousMonth, toNextMonth, selectDay} = calendarSlice.actions;
 export default calendarSlice.reducer;
