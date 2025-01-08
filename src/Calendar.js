@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import CalendarButton from './CalendarButton';
-import CalendarMonth from './CalendarMonth';
-import './Calendar.css';
-
+// import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toPreviousMonth, toNextMonth } from './calendarSlice'
+
+import CalendarButton from './CalendarButton';
+import CalendarMonth from './CalendarMonth';
+import DayInfo from './DayInfo';
+import './Calendar.css';
+
 
 function Calendar() {
     const date = useSelector((state) => state.calendar.date);
@@ -115,8 +117,7 @@ function Calendar() {
                 tasks={this.state.tasks}
                 dateKey={this.state.dateKey}
                 onAdd={this.handleAdd.bind(this)}
-                onDelete={this.handlDelete.bind(this)}/>
-            */}
+                onDelete={this.handlDelete.bind(this)}/> */}
             </>
         );
 }

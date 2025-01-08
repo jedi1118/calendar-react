@@ -1,3 +1,7 @@
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+
 function DayInfo(props) {
     // constructor(props) {
     //     super(props);
@@ -5,19 +9,19 @@ function DayInfo(props) {
     //     this.handleChange = this.handleChange.bind(this);
     //     this.handleAdd = this.handleAdd.bind(this);
     // }
-    function handleChange(event) {
-        this.setState({error: false});
-        this.setState({value: event.target.value});
-    }
-    function handleAdd() {
-        if (this.state.value === '') {
-            this.setState({error: true});
-            return;
-        }
-        this.setState({error: false});
-        this.props.onAdd(this.props.dateKey, this.state.value);
-        this.setState({value : ''});
-    }
+    // function handleChange(event) {
+    //     this.setState({error: false});
+    //     this.setState({value: event.target.value});
+    // }
+    // function handleAdd() {
+    //     if (this.state.value === '') {
+    //         this.setState({error: true});
+    //         return;
+    //     }
+    //     this.setState({error: false});
+    //     this.props.onAdd(this.props.dateKey, this.state.value);
+    //     this.setState({value : ''});
+    // }
     // render() {
         // console.log('##########DayInfo', this.props);
         const dayTasks = this.props && this.props.tasks && this.props.tasks[this.props.dateKey];
@@ -38,8 +42,8 @@ function DayInfo(props) {
         {this.props.dateKey && 
             <React.Fragment>
             <div className="add-label">Add a new task</div>
-            <textarea value={this.state.value} onChange={this.handleChange}/>
-            { this.state.error && <span className="detail-add-err">Please enter a description</span>}
+            <textarea value={1/*this.state.value*/} onChange={this.handleChange}/>
+            { /*this.state.error &&*/ <span className="detail-add-err">Please enter a description</span>}
             <div>
                 <button onClick={this.handleAdd}>Add</button>
             </div>
