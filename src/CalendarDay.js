@@ -20,7 +20,7 @@ function CalendarDay(props) {
         <button className={isToday?"today":""} onClick={() => {dispatch(selectDay(props.day))}}>
             <span className="day">{props.day}</span>
             {
-                tasks && tasks.length &&
+                tasks && tasks.length > 0 &&
                     <span className="todo">{tasks.length} tasks</span>
             }
             </button>

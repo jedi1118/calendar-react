@@ -29,16 +29,22 @@ const taskSlice = createSlice({
         }]
     },
     reducers: {
-        addTask: (state, dateKey) => {
-            if (!state.list[dateKey]) {
-                state.list[dateKey] = [];
+        addTask: (state, data) => {
+            if (!state[data.payload.key]) {
+                state[data.payload.key] = [];
             }
-            state.list[dateKey].push('?????');
+            state[data.payload.key].push({id: Date.now(), description: data.payload.task});
         },
-        deleteTask: (state,dateKey) => {
-            delete state.list[dateKey]["a"];
-        },
-    },
+        deleteTask: (state, data) => {
+            const todos = state[data.payload.key];
+            if (todos) {
+                const newList = todos.filter(
+                    (todo) => todo.id !== data.payload.id
+                );
+                state[data.payload.key] = newList;
+            }
+        }
+    }
   });
   
 export const {addTask, deleteTask} = taskSlice.actions;
