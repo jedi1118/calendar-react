@@ -17,3 +17,6 @@ You may also see any lint errors in the console.
 ### see the running demo
 https://jedi1118.github.io/calendar-react/
 This is a toy project to learn react. It display a calendar for the current month, high light the current date. Have a few harded coded tasks, user can add/delete tasks - clientside only; and navigate to a different month.
+
+### deployment to GIT
+`npm run build deploy` to build, and then `git push` to the deployment dir.
