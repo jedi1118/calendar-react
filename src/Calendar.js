@@ -1,6 +1,6 @@
 // import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toPreviousMonth, toNextMonth } from './calendarSlice'
+import { toPreviousMonth, toNextMonth } from './reducers/calendarSlice'
 
 import CalendarButton from './CalendarButton';
 import CalendarMonth from './CalendarMonth';

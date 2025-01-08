@@ -1,7 +1,7 @@
 import CalendarButton from "./CalendarButton";
 import CalendarDay from "./CalendarDay";
 import { useSelector, useDispatch } from 'react-redux'
-import { toPreviousMonth, toNextMonth } from './calendarSlice'
+import { toPreviousMonth, toNextMonth } from './reducers/calendarSlice'
 
 function CalendarMonth(props) {
     const date = useSelector(state => state.calendar.date) 

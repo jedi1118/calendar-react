@@ -4,7 +4,7 @@ import Calendar from './Calendar';
 
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit';
-import calendarReducer from './calendarSlice.js'
+import calendarReducer from './reducers/calendarSlice.js'
 
 const store = configureStore({
   reducer: {

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { toPreviousMonth, toNextMonth } from './calendarSlice'
+import { toPreviousMonth, toNextMonth } from './reducers/calendarSlice'
 
 function CalendarButton({direction}) {
     const dispatch = useDispatch();
