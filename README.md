@@ -1,6 +1,7 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## see the running demo
+https://jedi1118.github.io/calendar-react/
 
 ## Available Scripts
 
@@ -14,8 +15,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### see the running demo
-https://jedi1118.github.io/calendar-react/
+
 This is a toy project to learn react. It display a calendar for the current month, high light the current date. Have a few harded coded tasks, user can add/delete tasks - clientside only; and navigate to a different month.
 
 ### deployment to GIT
