@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# Calendar React App + Redux(multiple reducer/slice)
+displays current month, with current day highlighted, navigate month with < and > buttons, add and delete tasks for each day
 
 ## see the running demo
 https://jedi1118.github.io/calendar-react/
